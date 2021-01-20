@@ -13,6 +13,8 @@ const theme = {
       accent: 'black',
       button: 'darkgray',
     },
+    lightshade: '#676449',
+    blue: '#17ACB6'
   },
   fonts: {
     header: {
