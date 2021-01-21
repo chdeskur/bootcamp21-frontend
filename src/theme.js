@@ -2,16 +2,19 @@
 const theme = {
   colors: {
     layout: {
+      header: 'white',
       background: 'lightblue',
       accent: 'darkgray',
       darkAccent: 'black',
+      no: 'red',
+      yes: 'green',
     },
     fonts: {
       header: 'white',
       body: 'white',
       placeholder: 'darkgray',
       accent: 'black',
-      button: 'darkgray',
+      button: 'white',
     },
   },
   fonts: {
