@@ -1,95 +1,114 @@
-/*
-import React from 'react'
-
-import { useHistory } from 'react-router-dom'
-const jwt = require('jsonwebtoken')
-const decodedToken = token => {
-  try {
-    return jwt.verify(token, 'reughdjsasdkpmasipkmsdfadf')
-  } catch (error) {
-    console.log(error)
-  }
-}
-
- 
-const Home = () => {
-
-  const history = useHistory()
-  const token = localStorage.getItem('token')
-  const decoded = decodedToken(token)
-  if (!decoded.user || !token) {
-    history.push('/')
-  }
-  
-  return (
-    <div>Welcome to the DEV React starter!</div>
-  )
-}
-*/
-
-import React from 'react'
+import React, { useState } from 'react'
 import { 
-  Container, Column, Row, 
-  Header, Text, Frame, 
-  Button, OrderedList, 
-  BulletList, ListItem
+  Container, Column, Row, Match,
+  Header, Text, Frame, Compatible,
+  SmallHeader, Image, 
+  KindaCompatible, NotCompatible, 
+  Button, ButtonColumn, NextArrow, 
+  PrevArrow
 } from './styles'
 
 
 const Home = () => {
+  const [currentMatch, updateMatch] = useState(0)
+  const matches = [
+      {
+        fullName: 'Joe Oh',
+        bio: 'Joe goes to college and likes booze',
+        compatability: 80
+      },
+      {
+        fullName: 'Blah Blah',
+        bio: 'Blah likes music and writing really long bios blah blah blah blah blah blah blah blah blah blahblah',
+        compatability: 3
+      },
+      {
+        fullName: 'Catherine Deskur',
+        bio: '',
+        compatability: 56
+      }
+  ]
+
+  const compat = (number) => {
+    if (number >= 80) {
+      return <Compatible>{number}%</Compatible>
+    } else if (number >= 50) {
+      return <KindaCompatible>{number}%</KindaCompatible>
+    } else {
+      return <NotCompatible>{number}%</NotCompatible>
+    }
+  }
+
+  const match = (person) => {
+    return (
+      <Match>
+          <Row>
+            <Column>
+              <Row>
+                <Image
+                  src='https://i2.cdn.turner.com/cnn/2010/TECH/social.media/11/24/facebook.profile.shots.netiquette/t1larg.man.beer.jpg'
+                  alt='Avatar'
+                />
+                <Column>
+                  <SmallHeader>
+                    {person.fullName}
+                  </SmallHeader>
+                  <Text>
+                    {person.bio}
+                  </Text>
+                </Column>
+              </Row>
+              <SmallHeader>
+                Spotify Info
+              </SmallHeader>
+              <Row>
+                <Text>
+                  Your Spotify Compatability: 
+                </Text>
+                {person.compatability ? compat(person.compatability) : <NotCompatible>No data</NotCompatible>}
+              </Row>
+              <Frame
+                src="https://open.spotify.com/embed/playlist/37i9dQZEVXcVFoZvR0OgOZ" 
+                allowtransparency="true" allow="encrypted-media"
+              />
+            </Column>
+          </Row>
+        </Match>
+    )
+  }
+
+  const next = () => {
+    if (currentMatch >= 0 && currentMatch < matches.length - 1) {
+      updateMatch(currentMatch + 1)
+    }
+  }
+
+  const prev = () => {
+    if (currentMatch > 0 && currentMatch < matches.length) {
+      updateMatch(currentMatch - 1)
+    }
+  }
+
   return (
     <Container>
       <Column>
         <Header>
-          This is a header
+          Example Match
         </Header>
-        <Text>
-          This is text
-        </Text>
-        <Button>
-          A button!
-        </Button>
+        <Row>
+          <ButtonColumn>
+            <Button onClick={prev}>
+              <PrevArrow src='https://static.thenounproject.com/png/653965-200.png'/>
+            </Button>
+          </ButtonColumn>
+          {match(matches[currentMatch])}
+          <ButtonColumn>
+            <Button onClick={next}>
+              <NextArrow src='https://static.thenounproject.com/png/653965-200.png'/>
+            </Button>
+          </ButtonColumn>
+        </Row>
       </Column>
-      <Row>
-        <Column>
-          <Text>
-            Something
-          </Text>
-          <Frame
-            src="https://open.spotify.com/embed/playlist/37i9dQZEVXcVFoZvR0OgOZ" 
-            allowtransparency="true" allow="encrypted-media"
-          />
-        </Column>
-        <Column>
-          <Text>
-            Another thing
-          </Text>
-          <Text>
-            And its description 
-          </Text>
-        </Column>
-        <Column>
-          <Text>
-            One last thing
-          </Text>
-          <OrderedList>
-            <ListItem>
-              One
-            </ListItem>
-            <ListItem>
-              Two
-            </ListItem>
-          </OrderedList>
-          <BulletList>
-            <ListItem>
-              One
-            </ListItem>
-            <ListItem>
-              Two
-            </ListItem>
-          </BulletList>
-        </Column>
-      </Row>
     </Container>
   )
 }
