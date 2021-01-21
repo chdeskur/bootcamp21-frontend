@@ -7,6 +7,7 @@ import client from './client'
 import Home from './containers/Home'
 import SignUp from './containers/SignUp'
 import Profile from './containers/Profile'
+import NavBar from './components/Navbar'
 //import Login from './containers/Login'
 
 
@@ -15,6 +16,7 @@ const App = () => (
   <Router>
     <ThemeProvider theme={theme}>
       <ApolloProvider client={client}>
+        <NavBar />
         <div className="App">
         <Switch>
         <Route path="/Profile" component={Profile} />
