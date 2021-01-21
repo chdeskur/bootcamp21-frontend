@@ -6,6 +6,7 @@ import theme from './theme'
 import client from './client'
 import Home from './containers/Home'
 import SignUp from './containers/SignUp'
+import Profile from './containers/Profile'
 //import Login from './containers/Login'
 
 
@@ -16,7 +17,8 @@ const App = () => (
       <ApolloProvider client={client}>
         <div className="App">
         <Switch>
-            <Route path="/SignUp" component={SignUp} />
+        <Route path="/Profile" component={Profile} />
+        <Route path="/SignUp" component={SignUp} />
             <Route path="/" component={Home} />
           </Switch>
         </div>

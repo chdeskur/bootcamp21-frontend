@@ -25,7 +25,6 @@ export const Button = styled.button`
   font-weight: ${theme.fonts.header.weight};
   font-size: 14px;
   border: none;
-  display: block;
   transition: 0.5s ease;
 
   &:hover {
