@@ -4,6 +4,7 @@ import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
 import $ from 'jquery'
 import Player from "./Player"
 import './index.css'
+import { CentralContainer } from "../../components/styles";
 
 const Home = () => {
   const [token, setToken] = useState(null)
@@ -94,6 +95,9 @@ const Home = () => {
   
   return (
     <div className="App">
+      <CentralContainer>
+        
+      </CentralContainer>
       <header className="App-header">
         <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />
         {!token && (
