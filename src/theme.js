@@ -17,7 +17,8 @@ const theme = {
       button: 'white',
     },
     lightshade: '#676449',
-    blue: '#17ACB6'
+    blue: '#17ACB6',
+    gold: '#EDB400'
   },
   fonts: {
     header: {

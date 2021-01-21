@@ -6,6 +6,26 @@ export const Container = styled.div`
   overflow: hidden;
 `
 
+export const Title = styled.div`
+    background-color: ${theme.colors.gold};
+    box-sizing:border-box;
+    color: white;
+    font-size:25px;
+    font-weight:700;
+    padding:10px 0 10px 0;
+    border-radius: 50px;
+    text-align: center;
+    position:relative;
+    text-shadow:2px 2px 10px #D2691E;
+    width:100%;
+`
+
+export const ErrorLabel = styled.a`
+    font-size: 18px;
+    font-weight: 700;
+    color: red;
+`
+
 export const CentralContainer = styled.div`
     background: white;
     box-shadow: 0 2px 10px 1px ${theme.colors.lightshade};
@@ -16,6 +36,22 @@ export const CentralContainer = styled.div`
     padding: 20px;
     box-sizing: border-box;
     font: calc(12px + 0.5vw) ${theme.fonts.header.family};
+`
+
+export const CButton = styled.button`
+    background-color: ${theme.colors.blue};
+    border:2px solid #FFF;
+    border-radius:5px;
+    color:#FFF;
+    font-family:Overlock;
+    font-size:18px;
+    padding:5px 20px;
+    text-align:center;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 5px 2px ${theme.colors.lightshade};
+    }
 `
 
 export const Button = styled.button`
