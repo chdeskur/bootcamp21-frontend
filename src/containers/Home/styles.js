@@ -78,7 +78,6 @@ export const Text = styled.p`
   font-size: 16px;
   letter-spacing: 0.5px;
   text-align: center;
-  padding: 10px;
 `
 
 export const Frame = styled.iframe`
@@ -95,7 +94,7 @@ export const Button = styled.button`
   outline: none;
 `
 
-export const Compatible = styled.text`
+export const Compatible = styled.p`
   color: green;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
@@ -109,7 +108,7 @@ export const Compatible = styled.text`
   }
 `
 
-export const KindaCompatible = styled.text`
+export const KindaCompatible = styled.p`
   color: yellow;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
@@ -123,7 +122,7 @@ export const KindaCompatible = styled.text`
   }
 `
 
-export const NotCompatible = styled.text`
+export const NotCompatible = styled.p`
   color: red;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};

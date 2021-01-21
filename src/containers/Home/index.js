@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { 
   Container, Column, Row, Match,
-  Header, Text, Frame, Compatible,
+  Header, Text, Compatible,
   SmallHeader, Image, 
   KindaCompatible, NotCompatible, 
   Button, ButtonColumn, NextArrow, 
   PrevArrow
 } from './styles'
+import SpotifyInfo from '../Spotify/index'
 
 
 const Home = () => {
@@ -67,10 +68,7 @@ const Home = () => {
                 </Text>
                 {person.compatability ? compat(person.compatability) : <NotCompatible>No data</NotCompatible>}
               </Row>
-              <Frame
-                src="https://open.spotify.com/embed/playlist/37i9dQZEVXcVFoZvR0OgOZ" 
-                allowtransparency="true" allow="encrypted-media"
-              />
+              <SpotifyInfo />
             </Column>
           </Row>
         </Match>

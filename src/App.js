@@ -4,10 +4,10 @@ import { Switch, Route, BrowserRouter as Router, BrowserRouter } from 'react-rou
 import { ThemeProvider } from 'styled-components'
 import theme from './theme'
 import client from './client'
-//import Home from './containers/Home'
+import Home from './containers/Home'
 import Navbar from './containers/Navbar'
 //import Login from './containers/Login'
-import Home from './containers/Spotify'
+//import SpotifyInfo from './containers/Spotify'
 
 
 
