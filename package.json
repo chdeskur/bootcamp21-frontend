@@ -11,10 +11,15 @@
     "apollo-link-http": "^1.5.16",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
+    "jquery": "^3.5.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
+    "react-spotify-api": "^3.0.0",
+    "spotify-sdk": "^1.0.0-beta2",
+    "spotify-web-api-js": "^1.5.1",
+    "spotify-web-api-node": "^5.0.0",
     "styled-components": "^4.4.0"
   },
   "devDependencies": {

@@ -3,10 +3,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
-import config from './config'
+import { graphqlUrl } from './config'
 
 const httpLink = new HttpLink({
-  uri: config.graphqlUrl,
+  uri: graphqlUrl,
   credentials: 'include',
 })
 
