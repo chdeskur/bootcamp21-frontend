@@ -47,7 +47,7 @@ const SpotifyInfo = ({setLog}) => {
   return (
     <>    
       {token ? <SignUp setLog={setLog} name={username} songs={topSongs} artists={topArtists} /> : <LogIn setLog={setLog} />}
-      <Container className="AppInner">
+      <div className="AppInner">
       <header className="App-header">
         <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />
         {!token && (
@@ -86,7 +86,7 @@ const SpotifyInfo = ({setLog}) => {
           </Text>
         )}
       </header>
-      </Container>
+      </div>
     </>
   );
 }

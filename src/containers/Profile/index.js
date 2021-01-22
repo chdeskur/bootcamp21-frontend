@@ -10,8 +10,12 @@ const Profile = () => {
     const [initForm, setInitForm] = useState({})
     const [form, setForm] = useReducer(FormReducer, {})
     const [submission, setSubmission] = useState({})
+    const [updateSuccess, setUpdateSuccess] = useState(false)
     const [updateProfile] = useMutation(UPDATE_PROFILE, {
-        variables: {profile: {token: localStorage.getItem('token'), ...submission}}
+        variables: {profile: {token: localStorage.getItem('token'), ...submission}},
+        onCompleted: () => {
+            setUpdateSuccess(true)
+        }
     })
     const isFirstRender = useRef(true)
     const submitUpdate = (e) => {
@@ -38,8 +42,10 @@ const Profile = () => {
     useEffect(() => {
         if(isFirstRender.current) 
             return;
-        if(Object.keys(submission).length)
+        if(Object.keys(submission).length) {
+            // alert(JSON.stringify(submission))
             updateProfile()
+        }
     }, [submission])
     useEffect(() => {
         isFirstRender.current = false;
@@ -62,6 +68,7 @@ const Profile = () => {
                         Age: {type: 'num', bound: {limdec: 0, max: 100}}, NewPassword: {}, EmailMe: {span: 2, type: 'box', title: 'Send me email notifications when I get matched!'}, Bio: {span: 2}},
                         [['NewPassword'], ['FirstName', 'LastName'], ['Age', 'PhoneNumber'], ['EmailMe'], ['Bio']])}
                         <tr><td colspan="2" style={{textAlign: 'center'}}><CButton>Save changes</CButton></td></tr>
+                        {updateSuccess ? <tr><td colspan="2" style={{textAlign: 'center'}}>Profile updated successfully.</td></tr>: null }
                 </Table>
                 </form>}
             </CentralContainer>
