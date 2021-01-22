@@ -3,7 +3,7 @@ import { NavLink as link } from 'react-router-dom'
 import theme from '../../theme'
 
 export const Container = styled.div`
-  background: ${theme.colors.layout.background};
+  background: ${theme.colors.layout.darkAccent};
   height: 50px;
   display: flex;
   justify-content: center;
@@ -17,4 +17,9 @@ export const NavLink = styled(link).attrs()`
   font-size: 30px;
   margin: 0 20px;
   text-decoration: none;
+  transition: 0.2s ease;
+
+  &:hover {
+    text-shadow: 3px 3px ${theme.colors.fonts.placeholder}
+  }
 `

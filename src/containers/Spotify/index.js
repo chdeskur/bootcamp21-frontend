@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
 import hash from "./hash"
-import { authEndpoint, clientId, redirectUri, scopes } from "../../config"
-import * as $ from "jquery"
-import { Container, Row, BigText, Text, LoginButton } from './styles'
+import LogIn from './components/LogIn'
+import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
+import $ from 'jquery'
+import { Text, BigText, LoginButton, Row, Container } from "./styles";
+import SignUp from './components/SignUp'
 
 const SpotifyInfo = () => {
   const [token, setToken] = useState(null)
@@ -11,62 +13,19 @@ const SpotifyInfo = () => {
   const [topSongs, setSongs] = useState([])
   const [topArtists, setArtists] = useState([])
 
-  const getUser = (token) => {
+  const getSpotify = (token, setter, setAttr, url = '') => {
     return $.ajax({
-      url: 'https://api.spotify.com/v1/me/',
+      url: 'https://api.spotify.com/v1/me/' + url,
       type: "GET", 
-
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token)
       },
       success: data => {
-        // Checks if the data is not empty
         if(!data) {
           noData(true)
           return
         }
-
-        setName(data.display_name)
-      }
-    })
-  }
-  
-  const getSongs = (token) => {
-    return $.ajax({
-      url: 'https://api.spotify.com/v1/me/top/tracks?limit=5',
-      type: "GET", 
-
-      beforeSend: xhr => {
-        xhr.setRequestHeader("Authorization", "Bearer " + token)
-      },
-      success: data => {
-        // Checks if the data is not empty
-        if(!data) {
-          noData(true)
-          return
-        }
-
-        setSongs(data.items)
-      }
-    })
-  }
-
-  const getArtist = (token) => {
-    return $.ajax({
-      url: 'https://api.spotify.com/v1/me/top/artists?limit=5',
-      type: "GET", 
-
-      beforeSend: xhr => {
-        xhr.setRequestHeader("Authorization", "Bearer " + token)
-      },
-      success: data => {
-        // Checks if the data is not empty
-        if(!data) {
-          noData(true)
-          return
-        }
-
-        setArtists(data.items)
+        setter(data[setAttr])
       }
     })
   }
@@ -74,32 +33,31 @@ const SpotifyInfo = () => {
   useEffect(() => {
     // Set token
     let _token = hash.access_token
-    
     if (_token) {
       // Set token
       setToken(_token)
-      getUser(_token)
-      getSongs(_token)
-      getArtist(_token)
+      getSpotify(_token, setName, 'display_name')
+      getSpotify(_token, setSongs, 'items', 'top/tracks?limit=5')
+      getSpotify(_token, setArtists, 'items', 'top/tracks?limit=5')
     }
-
     // set interval for polling every 5 seconds
     setInterval(() => 5000)
   }, [])
-  
   return (
-    <Container >
+    <>    
+      {token ? <SignUp name={username} songs={topSongs} artists={topArtists} /> : <LogIn />}
+      <Container className="AppInner">
       <header className="App-header">
         {!token && (
-          <LoginButton 
+          <LoginButton style={{textDecoration: 'none'}}
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
               "%20"
             )}&response_type=token&show_dialog=true`}>
-            Login to Spotify
+            Register with Spotify
           </LoginButton>
         )}
-        {token && !no_data && (
-          <div>
+        {token && !no_data && topArtists && topSongs && (
+          <Container>
             <BigText>
               Spotify Info
             </BigText>
@@ -107,7 +65,7 @@ const SpotifyInfo = () => {
               Username: {username}
             </Text>
             <BigText>
-              Top artist: 
+              Top Artists: 
             </BigText>
             <Row>
               {topArtists.map((artist) => <Text key={artist.id}>{artist.name}</Text>)}
@@ -118,16 +76,17 @@ const SpotifyInfo = () => {
             <Row>
               {topSongs.map((song) => <Text key={song.id}>{song.name}</Text>)}
             </Row>
-          </div>
+          </Container>
         )}
         {no_data && (
           <Text>
-            You need to be playing a song on Spotify, for something to appear here.
+            No data, try again later
           </Text>
         )}
       </header>
-    </Container>
-  )
+      </Container>
+    </>
+  );
 }
 
-export default SpotifyInfo
+export default SpotifyInfo;

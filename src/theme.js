@@ -11,11 +11,15 @@ const theme = {
     },
     fonts: {
       header: 'white',
-      body: 'white',
+      body: 'white', 
       placeholder: 'darkgray',
       accent: 'black',
       button: 'white',
     },
+    lightshade: '#676449',
+    blue: '#17ACB6',
+    gold: '#EDB400',
+    red3: '#FF0000'
   },
   fonts: {
     header: {

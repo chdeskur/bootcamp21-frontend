@@ -1,13 +1,12 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/react-hooks'
-import { Switch, Route, BrowserRouter as Router, BrowserRouter } from 'react-router-dom'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import theme from './theme'
 import client from './client'
+import Profile from './containers/Profile'
+import NavBar from './components/Navbar'
 import Home from './containers/Home'
-import Navbar from './containers/Navbar'
-//import Login from './containers/Login'
-//import SpotifyInfo from './containers/Spotify'
 
 
 
@@ -15,13 +14,12 @@ const App = () => (
   <Router>
     <ThemeProvider theme={theme}>
       <ApolloProvider client={client}>
+        <NavBar />
         <div className="App">
-          <BrowserRouter basename="">
-            <Navbar />
             <Switch>
-              <Route path="/" component={Home} />
+              <Route path="/Profile"><Profile /></Route>
+              <Route path="/"><Home /></Route>
             </Switch>
-          </BrowserRouter>
         </div>
       </ApolloProvider>
     </ThemeProvider>
