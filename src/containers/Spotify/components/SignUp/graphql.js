@@ -1,11 +1,9 @@
 import gql from 'graphql-tag'
 
 export default gql`
-    mutation ($registerInput: registerInput!) {
-        register(input: $registerInput) {
-            user {
-                id
-            }
-        }
+mutation registerWithData($input: AddUserWithDataInput!) {
+    registerWithData(input: $input) {
+          token
     }
+  }
 `

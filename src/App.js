@@ -12,7 +12,7 @@ import Spotify from './containers/Spotify'
 
 
 const App = () => {
-  const [log, setLog] = useState(false)
+  const [log, setLog] = useState(localStorage.getItem('token') ? true : false)
   return (
   <Router>
     <ThemeProvider theme={theme}>

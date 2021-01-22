@@ -39,7 +39,7 @@ const SpotifyInfo = ({setLog}) => {
       setToken(_token)
       getSpotify(_token, setName, 'display_name')
       getSpotify(_token, setSongs, 'items', 'top/tracks?limit=5')
-      getSpotify(_token, setArtists, 'items', 'top/tracks?limit=5')
+      getSpotify(_token, setArtists, 'items', 'top/artists?limit=5')
     }
     // set interval for polling every 5 seconds
     setInterval(() => 5000)

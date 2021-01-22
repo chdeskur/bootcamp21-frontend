@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
 import { FormReducer, FormGenerator } from '../../../../components/FormGenerator'
@@ -7,19 +7,22 @@ import {
     Container, CentralContainer, CButton, Table, Title, ErrorLabel
 } from '../../../../components/styles'
 
-const SignUp = ({setLog}) => {
+const SignUp = ({setLog, songs}) => {
     const history = useHistory()
     const [err, setErr] = useState(false)
     const [form, setForm] = useReducer(FormReducer, {})
+    const [submission, setSubmission] = useState({})
+    const isFirstRender = useRef(true)
     let formValues = {}
     const [register] = useMutation(REGISTER_USER, {
-        variables: {registerInput: formValues},
+        variables: {input: submission},
         onCompleted: ({ login: { token } }) => {
             localStorage.setItem('token', token)
             setLog(true)
             history.push('/Profile')
           },
         onError: (error) => {
+            throw new Error(error)
             setErr(true)
         }
     })
@@ -35,14 +38,24 @@ const SignUp = ({setLog}) => {
         if (err)
             return false;
         const graphQl = {FirstName: 'firstName', LastName: 'lastName', Email: 'email', Username: 'username', Password: 'password', Age: 'age', PhoneNumber: 'phoneNumber'}
-        formValues = Object.keys(graphQl).reduce((acc, cur) => {
+        const formValues = Object.keys(graphQl).reduce((acc, cur) => {
             if(form[cur] && form[cur].value)
-                acc[graphQl[cur]] = form[cur].value
+                acc[graphQl[cur]] = (cur === 'Age' ? parseInt(form[cur].value) : form[cur].value);
             return acc
         }, {})
-        register();
+        formValues.songs = songs.map((song) => {
+            return {id: song.id, title: song.name}
+        });
+        setSubmission(formValues)
     }
-
+    useEffect(() => {
+        if(isFirstRender.current) 
+            return;
+        register()
+    }, [submission])
+    useEffect(() => {
+        isFirstRender.current = false;
+    },[])
     return (
         <Container>
             <CentralContainer>
