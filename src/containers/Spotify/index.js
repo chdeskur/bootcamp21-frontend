@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useReducer } from "react"
+import { useHistory } from 'react-router-dom'
+import { useMutation } from '@apollo/react-hooks'
 import hash from "./hash"
-import { authEndpoint, clientId, redirectUri, scopes } from "../../config"
-import * as $ from "jquery"
-import { Container, Row, BigText, Text, LoginButton } from './styles'
+import { LOG_IN } from './graphql'
+import LogIn from './components/Login'
+import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
+import $ from 'jquery'
+import './index.css'
+import { CentralContainer, Table, CButton, Title, ErrorLabel } from "../../components/styles";
+import { FormReducer, FormGenerator } from "../../components/FormGenerator";
 
 const SpotifyInfo = () => {
   const [token, setToken] = useState(null)
@@ -11,62 +17,19 @@ const SpotifyInfo = () => {
   const [topSongs, setSongs] = useState([])
   const [topArtists, setArtists] = useState([])
 
-  const getUser = (token) => {
+  const getSpotify = (token, setter, url = '') => {
     return $.ajax({
-      url: 'https://api.spotify.com/v1/me/',
+      url: 'https://api.spotify.com/v1/me/' + url,
       type: "GET", 
-
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token)
       },
       success: data => {
-        // Checks if the data is not empty
         if(!data) {
           noData(true)
           return
         }
-
-        setName(data.display_name)
-      }
-    })
-  }
-  
-  const getSongs = (token) => {
-    return $.ajax({
-      url: 'https://api.spotify.com/v1/me/top/tracks?limit=5',
-      type: "GET", 
-
-      beforeSend: xhr => {
-        xhr.setRequestHeader("Authorization", "Bearer " + token)
-      },
-      success: data => {
-        // Checks if the data is not empty
-        if(!data) {
-          noData(true)
-          return
-        }
-
-        setSongs(data.items)
-      }
-    })
-  }
-
-  const getArtist = (token) => {
-    return $.ajax({
-      url: 'https://api.spotify.com/v1/me/top/artists?limit=5',
-      type: "GET", 
-
-      beforeSend: xhr => {
-        xhr.setRequestHeader("Authorization", "Bearer " + token)
-      },
-      success: data => {
-        // Checks if the data is not empty
-        if(!data) {
-          noData(true)
-          return
-        }
-
-        setArtists(data.items)
+        setter(data.display_name)
       }
     })
   }
@@ -74,28 +37,27 @@ const SpotifyInfo = () => {
   useEffect(() => {
     // Set token
     let _token = hash.access_token
-    
     if (_token) {
       // Set token
       setToken(_token)
-      getUser(_token)
-      getSongs(_token)
-      getArtist(_token)
+      getSpotify(_token, setName)
+      getSpotify(_token, setSongs, 'top/tracks?limit=5')
+      getSpotify(_token, setArtists, 'top/artists?limit=5')
     }
-
     // set interval for polling every 5 seconds
     setInterval(() => 5000)
   }, [])
-  
   return (
-    <Container >
+    <>    
+      <LogIn />
+      <div className="AppInner">
       <header className="App-header">
         {!token && (
-          <LoginButton 
+          <LoginButton style={{textDecoration: 'none'}}
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
               "%20"
             )}&response_type=token&show_dialog=true`}>
-            Login to Spotify
+            Register with Spotify
           </LoginButton>
         )}
         {token && !no_data && (
@@ -126,8 +88,19 @@ const SpotifyInfo = () => {
           </Text>
         )}
       </header>
-    </Container>
-  )
+      </div>
+    </>
+  );
 }
 
-export default SpotifyInfo
+export default SpotifyInfo;
+//<User>
+// {(user, loading, error) =>
+//   user ? (
+//       <ul>
+//           <li>Name - {user.display_name}</li>
+//           <li>ID - {user.id}</li>
+//       </ul>
+//   ) : null
+// }
+// </User>
