@@ -21,11 +21,11 @@ const theme = {
   },
   fonts: {
     header: {
-      family: 'sans-serif',
+      family: 'Nunito',
       weight: 700,
     },
     body: {
-      family: 'sans-serif',
+      family: 'Overlock',
       weight: 300,
     },
   },
