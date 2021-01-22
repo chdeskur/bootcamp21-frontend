@@ -2,13 +2,13 @@ import React, { useEffect, useState, useReducer } from "react"
 import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
 import hash from "./hash"
-import { LOG_IN } from './graphql'
 import LogIn from './components/LogIn'
 import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
 import $ from 'jquery'
 import './index.css'
 import { Text, BigText, LoginButton, Row } from "./styles";
 import { FormReducer, FormGenerator } from "../../components/FormGenerator";
+import SignUp from './components/SignUp'
 
 const SpotifyInfo = () => {
   const [token, setToken] = useState(null)
@@ -17,7 +17,7 @@ const SpotifyInfo = () => {
   const [topSongs, setSongs] = useState([])
   const [topArtists, setArtists] = useState([])
 
-  const getSpotify = (token, setter, url = '') => {
+  const getSpotify = (token, setter, setAttr, url = '') => {
     return $.ajax({
       url: 'https://api.spotify.com/v1/me/' + url,
       type: "GET", 
@@ -40,7 +40,7 @@ const SpotifyInfo = () => {
     if (_token) {
       // Set token
       setToken(_token)
-      getSpotify(_token, setName)
+      getSpotify(_token, setName, 'display_name')
       getSpotify(_token, setSongs, 'top/tracks?limit=5')
       getSpotify(_token, setArtists, 'top/artists?limit=5')
     }
@@ -49,9 +49,10 @@ const SpotifyInfo = () => {
   }, [])
   return (
     <>    
-      <LogIn />
+      {token ? <SignUp /> : <LogIn />}
       <div className="AppInner">
       <header className="App-header">
+      <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />
         {!token && (
           <LoginButton style={{textDecoration: 'none'}}
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
@@ -60,7 +61,7 @@ const SpotifyInfo = () => {
             Register with Spotify
           </LoginButton>
         )}
-        {token && !no_data && (
+        {token && !no_data && topArtists && topSongs && (
           <div>
             <BigText>
               Spotify Info

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const REGISTER = gql`
+export default gql`
     mutation ($registerInput: registerInput!) {
         register(input: $registerInput) {
             user {
