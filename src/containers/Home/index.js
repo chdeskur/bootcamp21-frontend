@@ -8,28 +8,27 @@ import {
 import {
   Container
 } from '../../components/styles'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useLazyQuery } from '@apollo/react-hooks'
 import { ALL_USERS, USER_SONGS, USER_ARTISTS } from './graphql'
 
 const Matches = () => {
-  let uid = null
+  const [uid, setUid] = useState(null)
   const {data: matches, loading, error} = useQuery(ALL_USERS)
-  const {data: songs, loadingSongs, songError} = useQuery(USER_SONGS, {
+  const [fireSongs, {data: songs, loading: loadingSongs, error: songError}] = useLazyQuery(USER_SONGS, {
     variables: {
-        id: '1a842c0b-cd18-43f2-a2f0-e4a6b3747692'
-    }, 
-    partialRefetch: true
+        id: uid
+    }
   })
-  const {data: artists, loadingArtists, artistError} = useQuery(USER_ARTISTS, {
+  const [fireArtists, {data: artists, loadingArtists, artistError}] = useLazyQuery(USER_ARTISTS, {
     variables: {
         id: uid
     }
   })
   const [currentMatch, updateMatch] = useState(0)
-
   useEffect(() => {
-
-  })
+    fireSongs()
+    fireArtists()
+  }, [uid])
 
   if (songs && artists) {
     console.log(songs.userLikedSongNames)
@@ -43,10 +42,8 @@ const Matches = () => {
   if (error) {
     return <p>Come back later!</p>
   }
-
+  
   const match = (person) => {
-    uid = person.id
-
     return (
         <Match>
             <Column>
@@ -114,6 +111,7 @@ const Matches = () => {
   const next = () => {
     if (currentMatch >= 0 && currentMatch < matches.allUsers.length - 1) {
       updateMatch(currentMatch + 1)
+      setUid(matches.allUsers[currentMatch].id)
     }
   }
 

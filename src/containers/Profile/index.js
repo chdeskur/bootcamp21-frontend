@@ -59,7 +59,7 @@ const Profile = () => {
         <Container>
             <CentralContainer>
                 <Title>My Profile</Title>
-                {error ? 'Error' :
+                {error ? localStorage.getItem('token') + JSON.stringify(error) :
                 <form onSubmit={submitUpdate}>
                     <Table>
                         <tbody>

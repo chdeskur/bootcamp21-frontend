@@ -4,7 +4,6 @@ import theme from '../theme'
 export const Container = styled.div`
   background: ${theme.colors.layout.background};
   overflow: hidden;
-  height: 100vh;
 `
 
 export const Title = styled.div`

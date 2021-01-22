@@ -7,22 +7,20 @@ import {
     Container, CentralContainer, CButton, Table, Title, ErrorLabel
 } from '../../../../components/styles'
 
-const SignUp = ({setLog, songs}) => {
+const SignUp = ({setLog, songs, artists}) => {
     const history = useHistory()
     const [err, setErr] = useState(false)
     const [form, setForm] = useReducer(FormReducer, {})
     const [submission, setSubmission] = useState({})
     const isFirstRender = useRef(true)
-    let formValues = {}
     const [register] = useMutation(REGISTER_USER, {
         variables: {input: submission},
-        onCompleted: ({ login: { token } }) => {
+        onCompleted: ({ registerWithData: { token } }) => {
             localStorage.setItem('token', token)
             setLog(true)
             history.push('/Profile')
           },
         onError: (error) => {
-            throw new Error(error)
             setErr(true)
         }
     })
@@ -46,6 +44,9 @@ const SignUp = ({setLog, songs}) => {
         formValues.songs = songs.map((song) => {
             return {id: song.id, title: song.name}
         });
+        formValues.artists = artists.map((artist) => {
+            return {id: artist.id, name: artist.name}
+        })
         setSubmission(formValues)
     }
     useEffect(() => {
