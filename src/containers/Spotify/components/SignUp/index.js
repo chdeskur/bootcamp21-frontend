@@ -1,4 +1,5 @@
-import React, { useReducer, useState, useHistory } from 'react'
+import React, { useReducer, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
 import { FormReducer, FormGenerator } from '../../../../components/FormGenerator'
 import REGISTER_USER from './graphql'
