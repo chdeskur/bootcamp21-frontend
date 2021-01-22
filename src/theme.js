@@ -18,7 +18,8 @@ const theme = {
     },
     lightshade: '#676449',
     blue: '#17ACB6',
-    gold: '#EDB400'
+    gold: '#EDB400',
+    red3: '#FF0000'
   },
   fonts: {
     header: {

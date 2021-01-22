@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useReducer } from "react"
-import { useHistory } from 'react-router-dom'
-import { useMutation } from '@apollo/react-hooks'
 import hash from "./hash"
 import LogIn from './components/LogIn'
 import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
 import $ from 'jquery'
 import './index.css'
 import { Text, BigText, LoginButton, Row } from "./styles";
-import { FormReducer, FormGenerator } from "../../components/FormGenerator";
 import SignUp from './components/SignUp'
 
 const SpotifyInfo = () => {
@@ -29,7 +26,7 @@ const SpotifyInfo = () => {
           noData(true)
           return
         }
-        setter(data.display_name)
+        setter(data[setAttr])
       }
     })
   }
@@ -41,15 +38,15 @@ const SpotifyInfo = () => {
       // Set token
       setToken(_token)
       getSpotify(_token, setName, 'display_name')
-      getSpotify(_token, setSongs, 'top/tracks?limit=5')
-      getSpotify(_token, setArtists, 'top/artists?limit=5')
+      getSpotify(_token, setSongs, 'items', 'top/tracks?limit=5')
+      getSpotify(_token, setArtists, 'items', 'top/artists?limit=5')
     }
     // set interval for polling every 5 seconds
     setInterval(() => 5000)
   }, [])
   return (
     <>    
-      {token ? <SignUp /> : <LogIn />}
+      {token ? <SignUp name={username} songs={topSongs} artists={topArtists} /> : <LogIn />}
       <div className="AppInner">
       <header className="App-header">
       <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />
@@ -70,7 +67,7 @@ const SpotifyInfo = () => {
               Username: {username}
             </Text>
             <BigText>
-              Top artist: 
+              Top Artists: 
             </BigText>
             <Row>
               {topArtists.map((artist) => <Text key={artist.id}>{artist.name}</Text>)}
