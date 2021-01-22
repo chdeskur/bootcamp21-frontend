@@ -7,7 +7,7 @@ import {
     Container, CentralContainer, CButton, Table, Title, ErrorLabel
 } from '../../../../components/styles'
 
-const SignUp = () => {
+const SignUp = ({setLog}) => {
     const history = useHistory()
     const [err, setErr] = useState(false)
     const [form, setForm] = useReducer(FormReducer, {})
@@ -19,6 +19,7 @@ const SignUp = () => {
         }, {}),
         onCompleted: ({ login: { token } }) => {
             localStorage.setItem('token', token)
+            setLog(true)
             history.push('/Profile')
           },
         onError: (error) => {

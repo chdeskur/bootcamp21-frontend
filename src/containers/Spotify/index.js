@@ -7,7 +7,7 @@ import './index.css'
 import { Text, BigText, LoginButton, Row } from "./styles";
 import SignUp from './components/SignUp'
 
-const SpotifyInfo = () => {
+const SpotifyInfo = ({setLog}) => {
   const [token, setToken] = useState(null)
   const [no_data, noData] = useState(false)
   const [username, setName] = useState('')
@@ -46,7 +46,7 @@ const SpotifyInfo = () => {
   }, [])
   return (
     <>    
-      {token ? <SignUp name={username} songs={topSongs} artists={topArtists} /> : <LogIn />}
+      {token ? <SignUp setLog={setLog} name={username} songs={topSongs} artists={topArtists} /> : <LogIn setLog={setLog} />}
       <div className="AppInner">
       <header className="App-header">
       <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />

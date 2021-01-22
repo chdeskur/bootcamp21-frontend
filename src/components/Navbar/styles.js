@@ -17,4 +17,8 @@ export const NavLink = styled(link).attrs()`
   font-size: 30px;
   margin: 0 20px;
   text-decoration: none;
+
+  &:hover {
+    color: ${theme.colors.red3}
+  }
 `

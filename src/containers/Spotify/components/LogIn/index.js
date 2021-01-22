@@ -5,7 +5,7 @@ import { LOG_IN } from './graphql'
 import { CentralContainer, Table, CButton, Title, ErrorLabel } from "../../../../components/styles";
 import { FormReducer, FormGenerator } from "../../../../components/FormGenerator";
 
-const LogIn = () => {
+const LogIn = ({setLog}) => {
   const [form, setForm] = useReducer(FormReducer, {})
   const [loginErr, setLoginErr] = useState(false)
   const history = useHistory()
@@ -16,6 +16,7 @@ const LogIn = () => {
     },
     onCompleted: ({ login: { token } }) => {
       localStorage.setItem('token', token)
+      setLog(true)
       history.push('/Profile')
     },
     onError: (error) => {
