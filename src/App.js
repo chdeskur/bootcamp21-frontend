@@ -18,11 +18,10 @@ const App = () => (
         <NavBar />
         <div className="App">
           <BrowserRouter basename="">
-            <Navbar />
             <Switch>
-              <Route path="/SignUp" component={SignUp} />
-              <Route path="/Profile" component={Profile} />
-              <Route path="/" component={Home} />
+              <Route path="/SignUp"><SignUp /></Route>
+              <Route path="/Profile"><Profile /></Route>
+              <Route path="/"><Home /></Route>
             </Switch>
           </BrowserRouter>
         </div>

@@ -99,6 +99,19 @@ const Home = () => {
   }
   const [loginErr, setLoginErr] = useState(false)
   const history = useHistory()
+  const [logIn] = useMutation(LOG_IN, {
+    variables: {
+      email: form.Email && form.Email.value,
+      password: form.Password && form.Password.value
+    },
+    onCompleted: ({ login: { token } }) => {
+      localStorage.setItem('token', token)
+      history.push('/Profile')
+    },
+    onError: (error) => {
+      setLoginErr(true)
+    }
+  })
   const loginSubmit = (e) => {
     e.preventDefault()
     setLoginErr(false)
@@ -111,19 +124,6 @@ const Home = () => {
     })
     if (err)
       return false;
-    const [logIn] = useMutation(LOG_IN, {
-      variables: {
-        email: form.Email && form.Email.value,
-        password: form.Password && form.Password.value
-      },
-      onCompleted: ({ login: { token } }) => {
-        localStorage.setItem('token', token)
-        history.push('/matches')
-      },
-      onError: (error) => {
-        setLoginErr(true)
-      }
-    })
     logIn();
   }
 

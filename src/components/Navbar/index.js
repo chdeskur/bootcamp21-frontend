@@ -3,8 +3,8 @@ import { Container, NavLink } from './styles'
 
 export default () => (
   <Container>
-    <NavLink to='/'>Home</NavLink>
-    <NavLink to='/'>About</NavLink>
-    <NavLink to='/'>Login</NavLink>
+    <NavLink to="/SignUp">Sign Up</NavLink>
+    <NavLink to="/Profile">Me</NavLink>
+    <NavLink to="/">Home</NavLink>
   </Container>
 )
