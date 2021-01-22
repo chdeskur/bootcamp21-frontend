@@ -20,9 +20,9 @@ const Login = () => {
 
   return (
     <div>
-      <text>container</text>
+      <p>container</p>
       <div>
-      <text>login container</text>
+      <p>login container</p>
       <label>email</label>
       <input 
         type='text' 
