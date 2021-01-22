@@ -22,7 +22,7 @@ const App = () => {
             <Switch>
               {log ? <>
               <Route path="/Profile"><Profile /></Route>
-              <Route path="/"><Matches /></Route>
+              <Route exact path="/"><Matches /></Route>
               </> : <Route path="/"><Spotify setLog={setLog} /></Route>}
             </Switch>
         </div>

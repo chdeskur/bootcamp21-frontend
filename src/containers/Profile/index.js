@@ -1,23 +1,70 @@
-import React, {useReducer} from 'react'
+import { useMutation, useQuery } from '@apollo/react-hooks'
+import React, {useEffect, useReducer, useState, useRef } from 'react'
 import { FormReducer, FormGenerator } from '../../components/FormGenerator'
+import { UPDATE_PROFILE, GET_USER } from './graphql'
 import { 
-  Container, CentralContainer, Button, Table
+  Container, CentralContainer, CButton, Table, Title, LabelRow
 } from '../../components/styles'
 
 const Profile = () => {
+    const [initForm, setInitForm] = useState({})
     const [form, setForm] = useReducer(FormReducer, {})
+    const [submission, setSubmission] = useState({})
+    const [updateProfile] = useMutation(UPDATE_PROFILE, {
+        variables: {profile: {token: localStorage.getItem('token'), ...submission}}
+    })
+    const isFirstRender = useRef(true)
+    const submitUpdate = (e) => {
+        e.preventDefault();
+        let err = false;
+        ['FirstName', 'LastName', 'Email'].forEach((item) => {
+            if (!(form[item] && form[item].value)) {
+                setForm({ name: item, err: true, value: '' });
+                err = true;
+            }
+        })
+        if (err)
+            return false;
+        const graphQl = {FirstName: 'firstName', LastName: 'lastName', Age: 'age', PhoneNumber: 'phoneNumber', NewPassword: 'password', Bio: 'bio'}
+        setSubmission(Object.keys(graphQl).reduce((acc, cur) => {
+            if(form[cur] && form[cur].value !== initForm[cur])
+                acc[graphQl[cur]] = form[cur].value
+            return acc
+        }, {}))
+    }
+    const {data: profile, loading, error} = useQuery(GET_USER, {
+        variables: {token: localStorage.getItem('token')}
+    })
+    useEffect(() => {
+        if(isFirstRender.current) 
+            return;
+        if(Object.keys(submission).length)
+            updateProfile()
+    }, [submission])
+    useEffect(() => {
+        isFirstRender.current = false;
+        if(loading || error) return;
+        else {
+            setInitForm(Object.assign({}, profile && profile.userByToken))
+            setForm({data: profile && profile.userByToken})
+        }
+    },[profile])
     return (
         <Container>
             <CentralContainer>
-                <div>My Profile</div>
+                <Title>My Profile</Title>
                 <div>Change Profile Picture</div>
-                <Table>
-                    <tr><td>Username:</td><td>Username</td></tr>
-                    {FormGenerator(form, setForm, {FirstName: {}, LastName: {}, Year: {type: 'sel'}, House: {title: 'House/Dorm'}, 
-                    Email: {span: 2}, OldPassword: {}, NewPassword: {}, EmailMe: {span: 2, type: 'box', title: 'Send me email notifications when I get matched!'}, Bio: {span: 2}},
-                    [['OldPassword', 'NewPassword'], ['FirstName', 'LastName'], ['House', 'Year'], ['Email'], ['EmailMe'], ['Bio']])}
-                    <tr><td colspan="2" style={{textAlign: 'center'}}><Button>Save changes</Button></td></tr>
+                {error ? 'Error' :
+                <form onSubmit={submitUpdate}>
+                    <Table>
+                        <LabelRow><td>Username:</td><td>{form.username && form.username.value || 'Loading...'}</td></LabelRow>
+                        <LabelRow><td>Email:</td><td>{form.Email && form.Email.value || 'Loading...'}</td></LabelRow>
+                        {FormGenerator(form, setForm, {FirstName: {}, LastName: {}, PhoneNumber: {type: 'num', bound: {limdec: 0, nodashes: false, noleadzero: false, maxlength:15}}, 
+                        Age: {type: 'num', bound: {limdec: 0, max: 100}}, NewPassword: {}, EmailMe: {span: 2, type: 'box', title: 'Send me email notifications when I get matched!'}, Bio: {span: 2}},
+                        [['NewPassword'], ['FirstName', 'LastName'], ['Age', 'PhoneNumber'], ['EmailMe'], ['Bio']])}
+                        <tr><td colspan="2" style={{textAlign: 'center'}}><CButton>Save changes</CButton></td></tr>
                 </Table>
+                </form>}
             </CentralContainer>
         </Container>)
     }

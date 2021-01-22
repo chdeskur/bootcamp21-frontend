@@ -11,12 +11,9 @@ const SignUp = ({setLog}) => {
     const history = useHistory()
     const [err, setErr] = useState(false)
     const [form, setForm] = useReducer(FormReducer, {})
+    let formValues = {}
     const [register] = useMutation(REGISTER_USER, {
-        variables: ['FirstName', 'LastName', 'Email', 'Username', 'Password', 'House', 'Year', 'EmailMe'].reduce((acc, cur) => {
-            if(form[cur] && form[cur].value)
-                acc[cur] = form[cur].value
-            return acc
-        }, {}),
+        variables: {registerInput: formValues},
         onCompleted: ({ login: { token } }) => {
             localStorage.setItem('token', token)
             setLog(true)
@@ -37,6 +34,12 @@ const SignUp = ({setLog}) => {
         })
         if (err)
             return false;
+        const graphQl = {FirstName: 'firstName', LastName: 'lastName', Email: 'email', Username: 'username', Password: 'password', Age: 'age', PhoneNumber: 'phoneNumber'}
+        formValues = Object.keys(graphQl).reduce((acc, cur) => {
+            if(form[cur] && form[cur].value)
+                acc[graphQl[cur]] = form[cur].value
+            return acc
+        }, {})
         register();
     }
 
@@ -47,11 +50,11 @@ const SignUp = ({setLog}) => {
                 <form onSubmit={submitRegister}>
                     <Table>
                         {FormGenerator(form, setForm, {
-                            FirstName: {}, LastName: {}, Year: { type: 'sel' }, House: { title: 'House/Dorm' },
-                            Email: { span: 2 }, Username: { span: 2 }, Password: { span: 2 }, 
+                            FirstName: {}, LastName: {}, PhoneNumber: {type: 'num', bound: {limdec: 0, nodashes: false, noleadzero: false, maxlength:15}}, 
+                            Age: {type: 'num', bound: {limdec: 0, max: 100}}, Email: { span: 2 }, Username: { span: 2 }, Password: { span: 2 }, 
                             EmailMe: { span: 2, type: 'box', title: 'Send me email notifications when I get matched!' }
                         },
-                            [['FirstName', 'LastName'], ['Username'], ['Password'], ['House', 'Year'], ['Email'], ['EmailMe']])}
+                            [['FirstName', 'LastName'], ['Username'], ['Password'], ['Age', 'PhoneNumber'], ['Email'], ['EmailMe']])}
                         <tr><td colspan="2" style={{ textAlign: 'center' }}><CButton>Sign up!</CButton>
                         {err ? <><br /><ErrorLabel>Email already taken.</ErrorLabel></> : ''}</td></tr>
                     </Table>

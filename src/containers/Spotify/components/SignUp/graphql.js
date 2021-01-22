@@ -6,7 +6,6 @@ export default gql`
             user {
                 id
             }
-            token    
         }
     }
 `
