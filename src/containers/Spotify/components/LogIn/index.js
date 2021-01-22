@@ -2,8 +2,8 @@ import React, { useState, useReducer } from "react"
 import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
 import { LOG_IN } from './graphql'
-import { CentralContainer, Table, CButton, Title, ErrorLabel } from "../../components/styles";
-import { FormReducer, FormGenerator } from "../../components/FormGenerator";
+import { CentralContainer, Table, CButton, Title, ErrorLabel } from "../../../../components/styles";
+import { FormReducer, FormGenerator } from "../../../../components/FormGenerator";
 
 const LogIn = () => {
   const [form, setForm] = useReducer(FormReducer, {})

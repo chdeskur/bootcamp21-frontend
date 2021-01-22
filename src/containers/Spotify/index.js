@@ -3,11 +3,11 @@ import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
 import hash from "./hash"
 import { LOG_IN } from './graphql'
-import LogIn from './components/Login'
+import LogIn from './components/LogIn'
 import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
 import $ from 'jquery'
 import './index.css'
-import { CentralContainer, Table, CButton, Title, ErrorLabel } from "../../components/styles";
+import { Text, BigText, LoginButton, Row } from "./styles";
 import { FormReducer, FormGenerator } from "../../components/FormGenerator";
 
 const SpotifyInfo = () => {
