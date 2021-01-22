@@ -3,6 +3,7 @@ import hash from "./hash"
 import LogIn from './components/LogIn'
 import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
 import $ from 'jquery'
+import './index.css'
 import { Text, BigText, LoginButton, Row, Container } from "./styles";
 import SignUp from './components/SignUp'
 
@@ -48,6 +49,7 @@ const SpotifyInfo = ({setLog}) => {
       {token ? <SignUp setLog={setLog} name={username} songs={topSongs} artists={topArtists} /> : <LogIn setLog={setLog} />}
       <Container className="AppInner">
       <header className="App-header">
+        <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />
         {!token && (
           <LoginButton style={{textDecoration: 'none'}}
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(

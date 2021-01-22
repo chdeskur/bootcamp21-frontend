@@ -3,7 +3,7 @@ import React, {useEffect, useReducer, useState, useRef } from 'react'
 import { FormReducer, FormGenerator } from '../../components/FormGenerator'
 import { UPDATE_PROFILE, GET_USER } from './graphql'
 import { 
-  Container, CentralContainer, CButton, Table, Title, LabelRow
+  Container, CentralContainer2 as CentralContainer, CButton, Table, Title, LabelRow
 } from '../../components/styles'
 
 const Profile = () => {
