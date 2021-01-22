@@ -32,7 +32,7 @@ const Profile = () => {
         const graphQl = {FirstName: 'firstName', LastName: 'lastName', Age: 'age', PhoneNumber: 'phoneNumber', NewPassword: 'password', Bio: 'bio'}
         setSubmission(Object.keys(graphQl).reduce((acc, cur) => {
             if(form[cur] && form[cur].value !== initForm[cur])
-                acc[graphQl[cur]] = form[cur].value
+                acc[graphQl[cur]] = (cur === 'Age' ? parseInt(form[cur].value) : form[cur].value)
             return acc
         }, {}))
     }
@@ -65,7 +65,7 @@ const Profile = () => {
                         <LabelRow><td>Username:</td><td>{form.username && form.username.value || 'Loading...'}</td></LabelRow>
                         <LabelRow><td>Email:</td><td>{form.Email && form.Email.value || 'Loading...'}</td></LabelRow>
                         {FormGenerator(form, setForm, {FirstName: {}, LastName: {}, PhoneNumber: {type: 'num', bound: {limdec: 0, nodashes: false, noleadzero: false, maxlength:15}}, 
-                        Age: {type: 'num', bound: {limdec: 0, max: 100}}, NewPassword: {}, EmailMe: {span: 2, type: 'box', title: 'Send me email notifications when I get matched!'}, Bio: {span: 2}},
+                        Age: {type: 'num', bound: {limdec: 0, max: 100}}, NewPassword: {span: 2}, EmailMe: {span: 2, type: 'box', title: 'Send me email notifications when I get matched!'}, Bio: {span: 2}},
                         [['NewPassword'], ['FirstName', 'LastName'], ['Age', 'PhoneNumber'], ['EmailMe'], ['Bio']])}
                         <tr><td colspan="2" style={{textAlign: 'center'}}><CButton>Save changes</CButton></td></tr>
                         {updateSuccess ? <tr><td colspan="2" style={{textAlign: 'center'}}>Profile updated successfully.</td></tr>: null }
