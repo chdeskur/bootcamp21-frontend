@@ -59,15 +59,6 @@ const Home = () => {
                   </Text>
                 </Column>
               </Row>
-              <SmallHeader>
-                Spotify Info
-              </SmallHeader>
-              <Row>
-                <Text>
-                  Your Spotify Compatability: 
-                </Text>
-                {person.compatability ? compat(person.compatability) : <NotCompatible>No data</NotCompatible>}
-              </Row>
               <SpotifyInfo />
             </Column>
           </Row>

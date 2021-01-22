@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-//import hash from "./hash"
+import hash from "./hash"
 import { authEndpoint, clientId, redirectUri, scopes } from "../../config"
 import * as $ from "jquery"
-import { Container, Row, BigText, Text } from './styles'
+import { Container, Row, BigText, Text, LoginButton } from './styles'
 
 const SpotifyInfo = () => {
   const [token, setToken] = useState(null)
@@ -73,8 +73,7 @@ const SpotifyInfo = () => {
 
   useEffect(() => {
     // Set token
-    //let _token = hash.access_token
-    let _token = 'BQCRhNNYclHlUJksqXeam4la6GVlaf0GK0aEfFoRgot9IEFcLJEBNf0IiDMkpwMleP1AlBbtjayUApLloev_bIEjGgogH3Uf0YTLFlkJvl8LqTutcSe60Nwa63-IilHpc3Vtdqye0FcfA8qtwjGPdFO55VLacQ025WF9ZsU'
+    let _token = hash.access_token
     
     if (_token) {
       // Set token
@@ -92,30 +91,31 @@ const SpotifyInfo = () => {
     <Container >
       <header className="App-header">
         {!token && (
-          <a
-            className="btn btn--loginApp-link"
+          <LoginButton 
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
               "%20"
-            )}&response_type=token&show_dialog=true`}
-          >
+            )}&response_type=token&show_dialog=true`}>
             Login to Spotify
-          </a>
+          </LoginButton>
         )}
         {token && !no_data && (
           <div>
             <BigText>
-              Username: {username}
+              Spotify Info
             </BigText>
+            <Text>
+              Username: {username}
+            </Text>
             <BigText>
               Top artist: 
             </BigText>
             <Row>
               {topArtists.map((artist) => <Text key={artist.id}>{artist.name}</Text>)}
             </Row>
+            <BigText>
+              Top Songs: 
+            </BigText>
             <Row>
-              <BigText>
-                Top Songs: 
-              </BigText>
               {topSongs.map((song) => <Text key={song.id}>{song.name}</Text>)}
             </Row>
           </div>

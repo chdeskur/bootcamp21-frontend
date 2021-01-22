@@ -7,6 +7,8 @@ export const Container = styled.div`
   flex-flow: column;
   flex-grow: 1;
   width: 450px;
+  align-items: center;
+  padding: 10px;
   background: ${theme.colors.layout.darkAccent};
 `
 
@@ -16,21 +18,27 @@ export const Row = styled.div`
   justify-content: space-around;
 `
 
-export const LoginButton = styled.button`
+export const LoginButton = styled.a`
   background-color: transparent;
   border-radius: 2em;
-  border: 0.2em solid #1ecd97;
+  border: 0.2em solid green;
+  display: block;
   outline: none;
-  color: #1ecd97;
+  color: green;
   cursor: pointer;
-  font-size: 3vmin;
-  padding: 0.7em 1.5em;
+  font-family: ${theme.fonts.header.family};
+  font-weight: ${theme.fonts.header.weight};
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 1;
   text-transform: uppercase;
+  text-decoration: none;
   transition: all 0.25s ease;
 
   &:hover {
-    background: #1ecd97;
-    color: #333;
+    background: green;
+    color: black;
   }
 `
 
@@ -51,5 +59,5 @@ export const Text = styled.p`
   font-size: 16px;
   letter-spacing: 0.5px;
   text-align: center;
-  padding: 10px;
+  padding: 8px;
 `
