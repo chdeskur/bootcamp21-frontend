@@ -3,7 +3,7 @@ import React, {useEffect, useReducer, useState, useRef } from 'react'
 import { FormReducer, FormGenerator } from '../../components/FormGenerator'
 import { UPDATE_PROFILE, GET_USER } from './graphql'
 import { 
-  Container, CentralContainer2 as CentralContainer, CButton, Table, Title, LabelRow
+  Container, CentralContainer, CButton, Table, Title, LabelRow
 } from '../../components/styles'
 
 const Profile = () => {
@@ -62,6 +62,7 @@ const Profile = () => {
                 {error ? 'Error' :
                 <form onSubmit={submitUpdate}>
                     <Table>
+                        <tbody>
                         <LabelRow><td>Username:</td><td>{form.username && form.username.value || 'Loading...'}</td></LabelRow>
                         <LabelRow><td>Email:</td><td>{form.Email && form.Email.value || 'Loading...'}</td></LabelRow>
                         {FormGenerator(form, setForm, {FirstName: {}, LastName: {}, PhoneNumber: {type: 'num', bound: {limdec: 0, nodashes: false, noleadzero: false, maxlength:15}}, 
@@ -69,6 +70,7 @@ const Profile = () => {
                         [['NewPassword'], ['FirstName', 'LastName'], ['Age', 'PhoneNumber'], ['EmailMe'], ['Bio']])}
                         <tr><td colspan="2" style={{textAlign: 'center'}}><CButton>Save changes</CButton></td></tr>
                         {updateSuccess ? <tr><td colspan="2" style={{textAlign: 'center'}}>Profile updated successfully.</td></tr>: null }
+                        </tbody>
                 </Table>
                 </form>}
             </CentralContainer>

@@ -2,7 +2,7 @@ import React, { useState, useReducer } from "react"
 import { useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
 import { LOG_IN } from './graphql'
-import { CentralContainer, Table, CButton, Title, ErrorLabel } from "../../../../components/styles";
+import { Container, CentralContainer, Table, Button, Title, ErrorLabel } from "../../../../components/styles";
 import { FormReducer, FormGenerator } from "../../../../components/FormGenerator";
 
 const LogIn = ({setLog}) => {
@@ -39,6 +39,7 @@ const LogIn = ({setLog}) => {
   }
 
   return (    
+    <Container>
       <CentralContainer>
       <form onSubmit={loginSubmit}>
         <Title>Log In</Title>
@@ -47,11 +48,12 @@ const LogIn = ({setLog}) => {
             Email: {}, Password: {}
           },
             [['Email'], ['Password']])}
-          <tr><td colspan="2" style={{ textAlign: 'center' }}><CButton>Log in</CButton></td></tr>
+          <tr><td colspan="2" style={{ textAlign: 'center' }}><Button>Log in</Button></td></tr>
         </Table>
         {loginErr ? <ErrorLabel>Incorrect username or password.</ErrorLabel> : null}
       </form>
     </CentralContainer>
+    </Container>
   );
 }
 

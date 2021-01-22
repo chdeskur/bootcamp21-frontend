@@ -16,28 +16,17 @@ export const ALL_USERS = gql`
 `
 
 export const USER_SONGS = gql`
-  query userSongsById($id: id) {
-    userSongsById(id: $id) {
-      userId, 
-      songId
-    }
-  }
-`
-
-export const SONG_BY_ID = gql`
-  query songById($id: id) {
-    songById(id: $id) {
+  query userLikedSongNames($id: ID!) {
+    userLikedSongNames(id: $id) {
       title
     }
   }
 `
 
 export const USER_ARTISTS = gql`
-  query userArtistsById($id: id) {
-    userArtistsById(id: $id) {
-      artists {
-        name
-      }
+  query useFavArtistNames($id: ID!) {
+    useFavArtistNames(id: $id) {
+      name
     }
   }
 `
