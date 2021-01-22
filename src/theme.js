@@ -6,8 +6,6 @@ const theme = {
       background: 'lightblue',
       accent: 'darkgray',
       darkAccent: 'black',
-      no: 'red',
-      yes: 'green',
     },
     fonts: {
       header: 'white',

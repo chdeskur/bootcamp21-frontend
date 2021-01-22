@@ -8,8 +8,6 @@ export const Container = styled.div`
 `
 
 export const Title = styled.div`
-    background-color: ${theme.colors.gold};
-    box-sizing:border-box;
     color: white;
     font-size:25px;
     font-weight:700;
@@ -17,8 +15,13 @@ export const Title = styled.div`
     border-radius: 50px;
     text-align: center;
     position:relative;
-    text-shadow:2px 2px 10px #D2691E;
     width:100%;
+    transition: 0.5s ease;
+
+    &:hover {
+        cursor: pointer;
+        text-shadow: 3px 3px ${theme.colors.layout.accent}; 
+    }
 `
 
 export const ErrorLabel = styled.a`
@@ -28,18 +31,6 @@ export const ErrorLabel = styled.a`
 `
 
 export const CentralContainer = styled.div`
-    background: white;
-    box-shadow: 0 2px 10px 1px ${theme.colors.lightshade};
-    width: 90%;
-    max-width: 500px;
-    margin: 50px auto;
-    border-radius: 50px;
-    padding: 20px;
-    box-sizing: border-box;
-    font: calc(12px + 0.5vw) ${theme.fonts.header.family};
-`
-
-export const CentralContainer2 = styled.div`
   color: ${theme.colors.fonts.header};
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
@@ -77,17 +68,25 @@ export const CButton = styled.button`
 `
 
 export const Button = styled.button`
-  color: black;
-  background: ${theme.colors.layout.header};
+  background-color: transparent;
+  border-radius: 2em;
+  border: 0.2em solid white;
+  display: block;
+  outline: none;
+  color: white;
+  cursor: pointer;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
-  font-size: 14px;
-  border: none;
-  transition: 0.5s ease;
+  font-size: 20px;
+  padding: 10px;
+  margin: 10px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
 
   &:hover {
-    cursor: pointer;
-    box-shadow: 3px 3px ${theme.colors.layout.accent};
+    background: white;
+    color: black;
   }
 `
 export const Text = styled.p`

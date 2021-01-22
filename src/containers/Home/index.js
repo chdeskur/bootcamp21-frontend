@@ -1,18 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
-  Container, Column, Row, Match,
+  Column, Row, Match,
   Header, Text, SmallHeader, Image,  
   Button, ButtonColumn, NextArrow, UserColumn,
   PrevArrow, BigText, MatchButton, Bio
 } from './styles'
+import {
+  Container
+} from '../../components/styles'
 import { useQuery } from '@apollo/react-hooks'
 import { ALL_USERS, USER_SONGS, USER_ARTISTS } from './graphql'
 
 const Matches = () => {
+  let uid = null
   const {data: matches, loading, error} = useQuery(ALL_USERS)
-  const {data: songs, loadingSongs, songError} = useQuery(USER_SONGS)
-  const {data: artists, loadingArtists, artistError} = useQuery(USER_ARTISTS)
+  const {data: songs, loadingSongs, songError} = useQuery(USER_SONGS, {
+    variables: {
+        id: '1a842c0b-cd18-43f2-a2f0-e4a6b3747692'
+    }, 
+    partialRefetch: true
+  })
+  const {data: artists, loadingArtists, artistError} = useQuery(USER_ARTISTS, {
+    variables: {
+        id: uid
+    }
+  })
   const [currentMatch, updateMatch] = useState(0)
+
+  useEffect(() => {
+
+  })
+
+  if (songs && artists) {
+    console.log(songs.userLikedSongNames)
+    console.log(artists.userFavArtistNames)
+  }
 
   if (matches) {
     console.log(matches.allUsers[0])
@@ -23,7 +45,8 @@ const Matches = () => {
   }
 
   const match = (person) => {
-    const id = person.id
+    uid = person.id
+
     return (
         <Match>
             <Column>
@@ -56,7 +79,7 @@ const Matches = () => {
                         Top Songs: 
                       </BigText>
                       <Row>
-                        {songs.map((song) => <Text>{song.title}</Text>)}
+                        {songs.userLikedSongNames.map((song) => <Text>{song.title}</Text>)}
                       </Row>
                     </Column> : 
                     <Row>
@@ -71,7 +94,7 @@ const Matches = () => {
                         Top Artists: 
                       </BigText>
                       <Row>
-                        {artists.map((artist) => <Text>{artist.name}</Text>)}
+                        {artists.userFavArtistNames.map((artist) => <Text>{artist.name}</Text>)}
                       </Row>
                     </Column> : 
                     <Row>
@@ -87,8 +110,6 @@ const Matches = () => {
         </Match>
     )
   }
-
-  //<SpotifyInfo /> ^ insert back in above
 
   const next = () => {
     if (currentMatch >= 0 && currentMatch < matches.allUsers.length - 1) {
