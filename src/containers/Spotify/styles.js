@@ -50,6 +50,11 @@ export const BigText = styled.p`
   letter-spacing: 0.5px;
   text-align: center;
   padding: 10px;
+
+  &:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px ${theme.colors.layout.accent}; 
+  }
 `
 
 export const Text = styled.p`

@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useReducer } from "react"
+import React, { useEffect, useState } from "react"
 import hash from "./hash"
 import LogIn from './components/LogIn'
 import { authEndpoint, clientId, redirectUri, scopes } from "../../config";
 import $ from 'jquery'
-import './index.css'
-import { Text, BigText, LoginButton, Row } from "./styles";
+import { Text, BigText, LoginButton, Row, Container } from "./styles";
 import SignUp from './components/SignUp'
 
 const SpotifyInfo = ({setLog}) => {
@@ -39,7 +38,7 @@ const SpotifyInfo = ({setLog}) => {
       setToken(_token)
       getSpotify(_token, setName, 'display_name')
       getSpotify(_token, setSongs, 'items', 'top/tracks?limit=5')
-      getSpotify(_token, setArtists, 'items', 'top/artists?limit=5')
+      getSpotify(_token, setArtists, 'items', 'top/tracks?limit=5')
     }
     // set interval for polling every 5 seconds
     setInterval(() => 5000)
@@ -47,9 +46,8 @@ const SpotifyInfo = ({setLog}) => {
   return (
     <>    
       {token ? <SignUp setLog={setLog} name={username} songs={topSongs} artists={topArtists} /> : <LogIn setLog={setLog} />}
-      <div className="AppInner">
+      <Container className="AppInner">
       <header className="App-header">
-      <img src='https://i.pinimg.com/originals/1d/f4/6e/1df46e5b59ceaf54b63302e95644fd80.png' className="App-logo" alt="logo" />
         {!token && (
           <LoginButton style={{textDecoration: 'none'}}
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
@@ -59,7 +57,7 @@ const SpotifyInfo = ({setLog}) => {
           </LoginButton>
         )}
         {token && !no_data && topArtists && topSongs && (
-          <div>
+          <Container>
             <BigText>
               Spotify Info
             </BigText>
@@ -78,27 +76,17 @@ const SpotifyInfo = ({setLog}) => {
             <Row>
               {topSongs.map((song) => <Text key={song.id}>{song.name}</Text>)}
             </Row>
-          </div>
+          </Container>
         )}
         {no_data && (
           <Text>
-            You need to be playing a song on Spotify, for something to appear here.
+            No data, try again later
           </Text>
         )}
       </header>
-      </div>
+      </Container>
     </>
   );
 }
 
 export default SpotifyInfo;
-//<User>
-// {(user, loading, error) =>
-//   user ? (
-//       <ul>
-//           <li>Name - {user.display_name}</li>
-//           <li>ID - {user.id}</li>
-//       </ul>
-//   ) : null
-// }
-// </User>

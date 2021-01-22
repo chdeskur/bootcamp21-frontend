@@ -15,12 +15,48 @@ export const Match = styled.div`
   display: flex;
   flex-flow: column;
   flex-grow: 1;
-  width: 450px;
+  width: 600px;
+  margin: 30px;
   background: ${theme.colors.layout.darkAccent};
+  transition: 0.5s ease;
+
+  &:hover {
+    box-shadow: 8px 8px ${theme.colors.layout.header}; 
+  }
+`
+export const MatchButton = styled.button`
+  background-color: transparent;
+  border-radius: 2em;
+  border: 0.2em solid white;
+  display: block;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  font-family: ${theme.fonts.header.family};
+  font-weight: ${theme.fonts.header.weight};
+  font-size: 20px;
+  padding: 10px;
+  margin: 10px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: white;
+    color: black;
+  }
 `
 
 export const Column = styled.div`
   min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+`
+
+export const UserColumn = styled.div`
+  max-width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,6 +107,21 @@ export const SmallHeader = styled.h2`
   }
 `
 
+export const BigText = styled.p`
+  color: ${theme.colors.fonts.body};
+  font-family: ${theme.fonts.body.family};
+  font-weight: ${theme.fonts.header.weight};
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  padding: 10px;
+
+  &:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px ${theme.colors.layout.accent}; 
+  }
+`
+
 export const Text = styled.p`
   color: ${theme.colors.fonts.body};
   font-family: ${theme.fonts.body.family};
@@ -78,7 +129,18 @@ export const Text = styled.p`
   font-size: 16px;
   letter-spacing: 0.5px;
   text-align: center;
-  padding: 10px;
+`
+
+export const Bio = styled.div`
+  color: ${theme.colors.fonts.body};
+  font-family: ${theme.fonts.body.family};
+  font-weight: ${theme.fonts.body.weight};
+  font-style: italic;
+  font-size: 16px;
+  padding: 5px;
+  word-wrap: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
 `
 
 export const Frame = styled.iframe`
@@ -95,7 +157,7 @@ export const Button = styled.button`
   outline: none;
 `
 
-export const Compatible = styled.text`
+export const Compatible = styled.p`
   color: green;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
@@ -105,11 +167,11 @@ export const Compatible = styled.text`
   transition: 0.5s ease;
 
   &:hover {
-    text-shadow: 3px solid white;
+    text-shadow: 6px solid white;
   }
 `
 
-export const KindaCompatible = styled.text`
+export const KindaCompatible = styled.p`
   color: yellow;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
@@ -123,7 +185,7 @@ export const KindaCompatible = styled.text`
   }
 `
 
-export const NotCompatible = styled.text`
+export const NotCompatible = styled.p`
   color: red;
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};
@@ -141,8 +203,8 @@ export const Image = styled.img`
   padding: 20px;  
   border-radius: 50%;
   object-fit: cover;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
 `
 
 export const NextArrow = styled.img`

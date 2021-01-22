@@ -4,6 +4,7 @@ import theme from '../theme'
 export const Container = styled.div`
   background: ${theme.colors.layout.background};
   overflow: hidden;
+  height: 100vh;
 `
 
 export const Title = styled.div`
@@ -26,6 +27,7 @@ export const ErrorLabel = styled.a`
     color: red;
 `
 
+/*
 export const CentralContainer = styled.div`
     background: white;
     box-shadow: 0 2px 10px 1px ${theme.colors.lightshade};
@@ -37,12 +39,34 @@ export const CentralContainer = styled.div`
     box-sizing: border-box;
     font: calc(12px + 0.5vw) ${theme.fonts.header.family};
 `
+*/
+
+export const CentralContainer = styled.div`
+  color: ${theme.colors.fonts.header};
+  font-family: ${theme.fonts.header.family};
+  font-weight: ${theme.fonts.header.weight};
+  font-size: 18px;
+  overflow: auto;
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  width: 90%;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 15px;
+  background: ${theme.colors.layout.darkAccent};
+  transition: 0.5s ease;
+
+  &:hover {
+    box-shadow: 8px 8px ${theme.colors.layout.header}; 
+  }
+`
 
 export const CButton = styled.button`
     background-color: ${theme.colors.blue};
     border:2px solid #FFF;
     border-radius:5px;
-    color:#FFF;
+    color: black;
     font-family:Overlock;
     font-size:18px;
     padding:5px 20px;
@@ -55,7 +79,7 @@ export const CButton = styled.button`
 `
 
 export const Button = styled.button`
-  color: ${theme.colors.fonts.button};
+  color: black;
   background: ${theme.colors.layout.header};
   font-family: ${theme.fonts.header.family};
   font-weight: ${theme.fonts.header.weight};

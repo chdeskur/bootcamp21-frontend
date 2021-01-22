@@ -11,7 +11,7 @@ const theme = {
     },
     fonts: {
       header: 'white',
-      body: 'white',
+      body: 'white', 
       placeholder: 'darkgray',
       accent: 'black',
       button: 'white',

@@ -53,7 +53,6 @@ const Profile = () => {
         <Container>
             <CentralContainer>
                 <Title>My Profile</Title>
-                <div>Change Profile Picture</div>
                 {error ? 'Error' :
                 <form onSubmit={submitUpdate}>
                     <Table>

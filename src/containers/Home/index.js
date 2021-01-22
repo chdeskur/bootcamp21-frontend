@@ -1,117 +1,137 @@
 import React, { useState } from 'react'
 import { 
   Container, Column, Row, Match,
-  Header, Text, Frame, Compatible,
-  SmallHeader, Image, 
-  KindaCompatible, NotCompatible, 
-  Button, ButtonColumn, NextArrow, 
-  PrevArrow
+  Header, Text, SmallHeader, Image,  
+  Button, ButtonColumn, NextArrow, UserColumn,
+  PrevArrow, BigText, MatchButton, Bio
 } from './styles'
+import { useQuery } from '@apollo/react-hooks'
+import { ALL_USERS, USER_SONGS, USER_ARTISTS } from './graphql'
 
-
-const Home = () => {
+const Matches = () => {
+  const {data: matches, loading, error} = useQuery(ALL_USERS)
+  const {data: songs, loadingSongs, songError} = useQuery(USER_SONGS)
+  const {data: artists, loadingArtists, artistError} = useQuery(USER_ARTISTS)
   const [currentMatch, updateMatch] = useState(0)
-  const matches = [
-      {
-        fullName: 'Joe Oh',
-        bio: 'Joe goes to college and likes booze',
-        compatability: 80
-      },
-      {
-        fullName: 'Blah Blah',
-        bio: 'Blah likes music and writing really long bios blah blah blah blah blah blah blah blah blah blahblah',
-        compatability: 3
-      },
-      {
-        fullName: 'Catherine Deskur',
-        bio: '',
-        compatability: 56
-      }
-  ]
 
-  const compat = (number) => {
-    if (number >= 80) {
-      return <Compatible>{number}%</Compatible>
-    } else if (number >= 50) {
-      return <KindaCompatible>{number}%</KindaCompatible>
-    } else {
-      return <NotCompatible>{number}%</NotCompatible>
-    }
+  if (matches) {
+    console.log(matches.allUsers[0])
+  }
+
+  if (error) {
+    return <p>Come back later!</p>
   }
 
   const match = (person) => {
+    const id = person.id
     return (
-      <Match>
-          <Row>
+        <Match>
             <Column>
-              <Row>
-                <Image
-                  src='https://i2.cdn.turner.com/cnn/2010/TECH/social.media/11/24/facebook.profile.shots.netiquette/t1larg.man.beer.jpg'
-                  alt='Avatar'
-                />
-                <Column>
-                  <SmallHeader>
-                    {person.fullName}
-                  </SmallHeader>
+                <Row>
+                  <Image
+                    src={person.imageurl}
+                    alt='Avatar'
+                  />
+                  <UserColumn>
+                    <SmallHeader>
+                      {person.firstName}{' '}{person.lastName}
+                    </SmallHeader>
+                    <Text>
+                      Age: {person.age}
+                    </Text>
+                    <Bio>
+                      {person.bio}
+                    </Bio>
+                  </UserColumn>
+                </Row>
+                  <BigText>
+                    Spotify Info
+                  </BigText>
                   <Text>
-                    {person.bio}
+                    Username: {person.username}
                   </Text>
-                </Column>
-              </Row>
-              <SmallHeader>
-                Spotify Info
-              </SmallHeader>
-              <Row>
-                <Text>
-                  Your Spotify Compatability: 
-                </Text>
-                {person.compatability ? compat(person.compatability) : <NotCompatible>No data</NotCompatible>}
-              </Row>
-              <Frame
-                src="https://open.spotify.com/embed/playlist/37i9dQZEVXcVFoZvR0OgOZ" 
-                allowtransparency="true" allow="encrypted-media"
-              />
+                  {!songError && !loadingSongs && songs ? 
+                    <Column>
+                      <BigText>
+                        Top Songs: 
+                      </BigText>
+                      <Row>
+                        {songs.map((song) => <Text>{song.title}</Text>)}
+                      </Row>
+                    </Column> : 
+                    <Row>
+                      <BigText>
+                        No song data
+                      </BigText>
+                    </Row>
+                  }
+                  {!artistError && !loadingArtists && artists ? 
+                    <Column>
+                      <BigText>
+                        Top Artists: 
+                      </BigText>
+                      <Row>
+                        {artists.map((artist) => <Text>{artist.name}</Text>)}
+                      </Row>
+                    </Column> : 
+                    <Row>
+                      <BigText>
+                        No artist data
+                      </BigText>
+                    </Row>
+                  }
             </Column>
-          </Row>
+          <MatchButton onClick={() => alert(person.phoneNumber)}>
+            Match with {person.firstName}
+          </MatchButton>
         </Match>
     )
   }
 
+  //<SpotifyInfo /> ^ insert back in above
+
   const next = () => {
-    if (currentMatch >= 0 && currentMatch < matches.length - 1) {
+    if (currentMatch >= 0 && currentMatch < matches.allUsers.length - 1) {
       updateMatch(currentMatch + 1)
     }
   }
 
   const prev = () => {
-    if (currentMatch > 0 && currentMatch < matches.length) {
+    if (currentMatch > 0 && currentMatch < matches.allUsers.length) {
       updateMatch(currentMatch - 1)
     }
   }
 
   return (
     <Container>
-      <Column>
-        <Header>
-          Example Match
-        </Header>
+      {!loading && matches ? 
+        <Column>
         <Row>
           <ButtonColumn>
-            <Button onClick={prev}>
-              <PrevArrow src='https://static.thenounproject.com/png/653965-200.png'/>
-            </Button>
+            {currentMatch > 0 ? 
+              <Button onClick={prev}>
+                <PrevArrow src='https://static.thenounproject.com/png/653965-200.png'/>
+              </Button> : 
+              <></>
+            }
           </ButtonColumn>
-          {match(matches[currentMatch])}
+          {match(matches.allUsers[currentMatch])}
           <ButtonColumn>
-            <Button onClick={next}>
-              <NextArrow src='https://static.thenounproject.com/png/653965-200.png'/>
-            </Button>
+            {currentMatch < matches.allUsers.length - 1 ? 
+              <Button onClick={next}>
+                <NextArrow src='https://static.thenounproject.com/png/653965-200.png'/>
+              </Button> : 
+              <></>
+            }
           </ButtonColumn>
         </Row>
-      </Column>
+        </Column> : 
+        <Header>
+          Loading...
+        </Header>
+      }
     </Container>
   )
 }
-export default Home
-//export default Home
+export default Matches
 
